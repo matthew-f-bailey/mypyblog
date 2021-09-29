@@ -70,16 +70,80 @@
             </div>
         </article>
         <div class="container">
+
             <h4>1. Install Python</h4>
+            <p>
+                First thing first, we need to download the installer from the official website.
+                This is located at the url of https://www.python.org/downloads/. Once there click that big ole' "Download Python x.x.x" button.
+            </p>
+            <img src="assets/getting_started_with_python/py_homepage.png">
+
         </div>
+
         <div class="container">
+
             <h4>2. Check off "Add to PATH" (but don't tho)</h4>
+            <p>
+                Once the download is finished, go ahead and run the installer.
+                You'll see two options (at least at the time of writing this). The simple "Install Now" and the customized installation option.
+                For now, we'll choose the simple one. However be sure to note 2 things here.
+                <ol>
+                    <li>The installation path of python</li>
+                    <li>The checkbox of "Add Python X.X to PATH" (and make sure this is unchecked, we will configure this manually so you understand why it is important)</li>
+                </ol>
+                Go Ahead and click "Install Now" and accept any prompts windows pops up.
+            </p>
+            <img src="assets/getting_started_with_python/install_window.png">
+            <p>
+                Once successful, you should get a message telling you everything went good.
+                One thing to note here is that if you do not have Admin permissions or read/write access in
+                the attempted install directory things can fail or you will be warned that Python will need to
+                be configured correctly. If this is the case, go follow another tutorial  on how to get around your work/schools IT block (Sorry).
+            </p>
+
         </div>
         <div class="container">
             <h4>3. Take a look at the directories</h4>
+            <p>
+                To verify installation ourselves, lets take a look at what it installed.
+                If we navigate into the directory that we noted back in Step 2. We should see the following...
+                <img src="assets/getting_started_with_python/python_dirs.png">
+                For this tutorial, there is two things of importance. The python.exe and the Scripts directory.
+                <ul>
+                    <li>The python exe is what we need to add to the windows PATH (also Scripts folder below). This allows us to open a command prompt and invoke python from anywhere.</li>
+                    <li>The Scripts folder. Initially this will only include pip. However pip will help us install other packages we will need/want if we plan on using any community libraries outside of the base python package.</li>
+                </ul>
+                <div class="alert alert-info" role="alert">
+                    PIP seems to have some debate on what the acronym truly stands for but the ones that seems most on-the-nose is "Preferred Installer Program". It essentially connects to PyPi and installs packages to your system so you can import them into your code and use them.
+                </div>
+                Before we add anything to the PATH, lets see how we can correctly (and incorrectly) call Python from the Command Line.
+                First lets start up a blank terminal by opening the start menu and typing in "cmd". Choose the "Command Prompt".
+                Once this is open type in a command to validate python. There are a few easy ones, and one I use is "python --version".
+                If python was on the PATH, we should see a version number be output below our command. However since we have not done that, we'll get a message like this...
+                <img src="assets/getting_started_with_python/python_cmd.png">
+                However if you do get a version, that means you already have some version of Python configured to your PATH. (Or you just so happended to install python to your root user directory. If this is the case, then you may not need this tutorial. Or delete all installed versions of python and restart)
+                It is worth noting that just because you haven't configured python to your PATH, doesn't mean it isn't usable. We can actually go into the installed directory and invoke the .exe from there.
+                <img src="assets/getting_started_with_python/python_cmd_dir.png">
+                Here you can see I changed my directory into the directory in which I originally installed Python and invoked it from there.
+                The next step, we will add this directory path to the window's PATH variable so we do not need to do this every time we want to use python on the command line (along with other reasons).
+            </p>
         </div>
         <div class="container">
             <h4>4. Configure the PATH manually</h4>
+            <p>
+                Now that we've verified Python is installed correctly and know the two paths we have to add to the path, lets go ahead and do that to see the change.
+                First open the start menu and type "environment variables". Click n the "Edit the system environment variables" suggestion. This will pop open a window like this...
+                <img src="assets/getting_started_with_python/env_vars.png">
+                Click on the Environment Variables button shown above. Note the following screenshot for the variable we will need to add to...
+                <img src="assets/getting_started_with_python/path.png">
+                The variable we're interested in is the "Path" variable. Highlight the selection and click "Edit...".
+                Once the edit screen is up, click on "New" and paste in the two things we noted earlier, the directory that holds the python.exe and the Scripts folder...
+                <img src="assets/getting_started_with_python/env_path.png">
+                We can now go ahead and verify that we can call the Python.exe that lives in that directory from anywhere on the command line.
+                Lets open up a new command prompt and try it out.
+                <img src="assets/getting_started_with_python/path_verify.png">
+                Now that python is configured and we also verified that pip worked by using the command "pip list" (all the packages in the Scripts folder). We can talk about virtual environments.
+            </p>
         </div>
         <div class="container">
             <h4>5. Explore the venv module</h4>
