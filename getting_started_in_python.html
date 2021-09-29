@@ -34,7 +34,7 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('assets/img/post-bg.jpg')">
+        <header class="masthead" style="background-image: url('assets/img/Python_windows.png')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -78,7 +78,7 @@
                     First thing first, we need to download the installer from the official website.
                     This is located at the url of https://www.python.org/downloads/. Once there click that big ole' "Download Python x.x.x" button.
                 </p>
-                <img src="assets/getting_started_with_python/py_homepage.png">
+                <img class="img-fluid" src="assets/getting_started_with_python/py_homepage.png">
 
             </div>
 
@@ -95,7 +95,7 @@
                     </ol>
                     Go Ahead and click "Install Now" and accept any prompts windows pops up.
                 </p>
-                <img src="assets/getting_started_with_python/install_window.png">
+                <img class="img-fluid" src="assets/getting_started_with_python/install_window.png">
                 <p>
                     Once successful, you should get a message telling you everything went good.
                     One thing to note here is that if you do not have Admin permissions or read/write access in
@@ -109,7 +109,7 @@
                 <p>
                     To verify installation ourselves, lets take a look at what it installed.
                     If we navigate into the directory that we noted back in Step 2. We should see the following...
-                    <img src="assets/getting_started_with_python/python_dirs.png">
+                    <img class="img-fluid" src="assets/getting_started_with_python/python_dirs.png">
                     For this tutorial, there is two things of importance. The python.exe and the Scripts directory.
                     <ul>
                         <li>The python exe is what we need to add to the windows PATH (also Scripts folder below). This allows us to open a command prompt and invoke python from anywhere.</li>
@@ -122,10 +122,10 @@
                     First lets start up a blank terminal by opening the start menu and typing in "cmd". Choose the "Command Prompt".
                     Once this is open type in a command to validate python. There are a few easy ones, and one I use is "python --version".
                     If python was on the PATH, we should see a version number be output below our command. However since we have not done that, we'll get a message like this...
-                    <img src="assets/getting_started_with_python/python_cmd.png">
+                    <img class="img-fluid" src="assets/getting_started_with_python/python_cmd.png">
                     However if you do get a version, that means you already have some version of Python configured to your PATH. (Or you just so happended to install python to your root user directory. If this is the case, then you may not need this tutorial. Or delete all installed versions of python and restart)
                     It is worth noting that just because you haven't configured python to your PATH, doesn't mean it isn't usable. We can actually go into the installed directory and invoke the .exe from there.
-                    <img src="assets/getting_started_with_python/python_cmd_dir.png">
+                    <img class="img-fluid" src="assets/getting_started_with_python/python_cmd_dir.png">
                     Here you can see I changed my directory into the directory in which I originally installed Python and invoked it from there.
                     The next step, we will add this directory path to the window's PATH variable so we do not need to do this every time we want to use python on the command line (along with other reasons).
                 </p>
@@ -135,15 +135,15 @@
                 <p>
                     Now that we've verified Python is installed correctly and know the two paths we have to add to the path, lets go ahead and do that to see the change.
                     First open the start menu and type "environment variables". Click n the "Edit the system environment variables" suggestion. This will pop open a window like this...
-                    <img src="assets/getting_started_with_python/env_vars.png">
+                    <img class="img-fluid" src="assets/getting_started_with_python/env_vars.png">
                     Click on the Environment Variables button shown above. Note the following screenshot for the variable we will need to add to...
-                    <img src="assets/getting_started_with_python/path.png">
+                    <img class="img-fluid" src="assets/getting_started_with_python/path.png">
                     The variable we're interested in is the "Path" variable. Highlight the selection and click "Edit...".
                     Once the edit screen is up, click on "New" and paste in the two things we noted earlier, the directory that holds the python.exe and the Scripts folder...
-                    <img src="assets/getting_started_with_python/env_path.png">
+                    <img class="img-fluid" src="assets/getting_started_with_python/env_path.png">
                     We can now go ahead and verify that we can call the Python.exe that lives in that directory from anywhere on the command line.
                     Lets open up a new command prompt and try it out.
-                    <img src="assets/getting_started_with_python/path_verify.png">
+                    <img class="img-fluid" src="assets/getting_started_with_python/path_verify.png">
                     Now that python is configured and we also verified that pip worked by using the command "pip list" (all the packages in the Scripts folder). We can talk about virtual environments.
                 </p>
             </div>
@@ -177,7 +177,7 @@
                     We can create a directory for a virtual environment anywhere on our system. Some people like to keep all of their environments in a single folder next to each other. Personally, when I create a new project or directory for source code
                     I will go ahead and create another directory right next to it with the same name and a suffix of "_env".
                 </p>
-                <img src="assets/getting_started_with_python/env_dir.png">
+                <img class="img-fluid" src="assets/getting_started_with_python/env_dir.png">
                 <p>
                     Every time we begin working in that project, we will need to activate that environment. But first, lets actually create it.
                     Open up your command prompt and type the following...
@@ -186,7 +186,7 @@
                 <p>
                     Some magic will run under the hood and we'll see that in the directory, we now have some stuff.
                 </p>
-                <img src="assets/getting_started_with_python/create_env.png">
+                <img class="img-fluid" src="assets/getting_started_with_python/create_env.png">
 
             </div>
             <div class="container">
@@ -195,12 +195,12 @@
                     Very similar to what we saw before is a Scripts folder. However in this case, no configuring of the PATH variable is needed (Thats actually implicitly happening when we activate it).
                     We can now activate this virtual environment by calling an exe within that Scripts directory that was created.
                 </p>
-                <img src="assets/getting_started_with_python/env_activate.png">
+                <img class="img-fluid" src="assets/getting_started_with_python/env_activate.png">
                 <p>
                     With our environment active, we are now working in a completely separate environment from our global installation. To demonstrate this, lets install something in our virtual environment here and show that we won't have access to it globally.
                 </p>
                 <code>pip install requests</code>
-                <img src="assets/getting_started_with_python/env_install.png">
+                <img class="img-fluid" src="assets/getting_started_with_python/env_install.png">
                 <p>
                     We can see by running "pip list" after the install completed that we have a module called "requests" that is available to use.
                     This can now be imported into some source code, and when in this environment, we can run that source code and this newly install requests module will be used.
@@ -209,7 +209,7 @@
                     In the following screenshot, I deactivate the environnement (going back to the global installation) and check out "pip list" again.
                     We will see that the requests module we installed is only available within that environment. Meaning we can have 2 different versions of the same module on our machine, just in different environments.
                 </p>
-                <img src="assets/getting_started_with_python/global_install.png">
+                <img class="img-fluid" src="assets/getting_started_with_python/global_install.png">
             </div>
         </div>
         <!-- Footer-->
@@ -219,23 +219,23 @@
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <ul class="list-inline text-center">
                             <li class="list-inline-item">
-                                <a href="#!">
+                                <a href="https://github.com/matthew-f-bailey">
                                     <span class="fa-stack fa-lg">
                                         <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                        <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
                                     </span>
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="#!">
+                                <a href="https://www.matthewfbailey.com/">
                                     <span class="fa-stack fa-lg">
                                         <i class="fas fa-circle fa-stack-2x"></i>
-                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                        <i class="fas fa-user fa-stack-1x fa-inverse"></i>
                                     </span>
                                 </a>
                             </li>
                             <li class="list-inline-item">
-                                <a href="#!">
+                                <a href="https://www.linkedin.com/in/bailey-matthew/">
                                     <span class="fa-stack fa-lg">
                                         <i class="fas fa-circle fa-stack-2x"></i>
                                         <i class="fab fa-github fa-stack-1x fa-inverse"></i>
@@ -243,7 +243,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2021</div>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; MyPyBlog</div>
                     </div>
                 </div>
             </div>
