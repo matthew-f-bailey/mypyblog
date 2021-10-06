@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Building an ETL workflow with Scrapy, AWS, and Dash/plotly part 1</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/content.css" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand" href="index.html">MyPyBlog</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="https://www.matthewfbailey.com/">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page Header-->
+        <header class="masthead" style="background-image: url('assets/img/LeastSquares.png')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="post-heading">
+                            <h1>Building an ETL workflow with Scrapy, AWS, and Dash/plotly part 1</h1>
+                            <h2 class="subheading">Extract & Transform with Scrapy</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">Matthew Bailey</a>
+                                on October 10, 2021
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <h1>Part 1 - Setting up and collecting the data</h1>
+                        <h2 class="section-heading">1. Setup our environments and download libraries</h2>
+                        <p>The first thing we need to do is download the Scrapy Framework. If you're familiar with web scraping, you may have heard of this before but typically intro web-scraping tutorials will talk about requests and beautiful soup.</p>
+                        <p>While these two are great resources, as you scale up operations of data collection, you'll typically run into certain roadblocks. These include proxy management, exporting, scaling, javascript, etc. There is a lot.</p>
+                        <p>Scrapy aims to provide a framework to solve these and has been supported for quite a while now. Not to mention offers many extensions to modify behavior of any spider on the fly. When it comes down to one-off projects, the requests and beautiful soup path may be the best option.</p>
+                        <p>If you plan to scale, Scrapy is your bet.</p>
+                        <h3>Create our project.</h3>
+                        <p>First thing first, lets setup our directory as follows. Some folders will be used for future lessons, but lets get setup out of the way.</p>
+                        <div>
+                            etl_pipeline<br>
+                            ├── aws<br>
+                            &emsp;&emsp;└─ aws_env<br>
+                            ├── dash<br>
+                            &emsp;&emsp;└─ dash_env<br>
+                            ├── scrapy<br>
+                            &emsp;&emsp;└─ scrapy_env<br>
+                            └── .gitignore
+                        </div>
+                        <p>With all of them as empty folders for now. And our .gitignore file with a single entry.</p>
+                        <pre><code class="python"># Ignore all our environments<br>*env</code></pre>
+                        <p>This will ignore any folder and subfolders ending in "_env" thus our environments</p>
+                        <p>Next we create our virtual environment just for scrapy. Open a command prompt and navigate into our newly created scrapy\scrapy_env folder and run the following command.</p>
+
+                        <pre><code>C:\etl_pipeline\scrapy\scrapy_env>python -m venv <br>C:\etl_pipeline\scrapy\scrapy_env>Scripts\activate.bat<br>(scrapy_env) C:\etl_pipeline\scrapy\scrapy_env><br></code></pre>
+
+                        <p>The second command should then activate our environment and we can proceed.</p>
+                        <p>Lets head back into our scrapy directory and create our requirements.txt file. It should contain a single entry of "scrapy". After we have this file in the scrapy directory and are in that directory we should run the following to install it.</p>
+
+                        <pre><code>(scrapy_env) C:\etl_pipeline\scrapy>pip install -r requirements.txt</code></pre>
+
+                        <p>We should see scrapy download and be available for use within our environment now. Lets create a new scrapy project with the scrapy command "startproject".</p>
+                        <pre><code>(scrapy_env) C:\etl_pipeline\scrapy>scrapy startproject pipeline</code></pre>
+                        <p>If everything wen't well our entire project should look like this.</p>
+                        <img class="img-fluid" src="assets/scrapy/project_setup.png">
+
+                        <p>For now, we won't take too deep of a dive into the scrapy framework just yet. Instead, we'll get a spider up and running, then revisit all the configuration.</p>
+                        <p>You won't have a spider yet, but first lets define our source we want to have a stream of data for. This will be different depending on what data you are interested in. For the purpose of this tutorial we will use the Billboard Top 100 chart.</p>
+
+
+                        <h2 class="section-heading">2. Inspect our source</h2>
+                        <p>When looking at web scraping, we want to take a look at a few things.</p>
+                        <ol>
+                            <li>How is the data of interest loaded in? API or HTML</li>
+                            <li>Do we need to paginate?</li>
+                            <li>Can we exploit request parameters?</li>
+                        </ol>
+                        <p>Let's take a look at the website source code and find out. If we navigate to https://www.billboard.com/charts/hot-100, we can right click and choose inspect (or F12, or ctrl+shift+C, or various other shortcuts). This will pop up the developer tools.</p>
+                        <p>The first thing I typically do is go upon interacting with the site with the network tab open and inspect what happens. The first thing I check when loading in the page is to view the document loaded in. If this includes the data we need, chances are no API is used and we will need some sort of HTML parsing.</p>
+                        <p>We can see here that this is indeed the case (at least for the basic information). There is a json formatted custom data attribute but we will go ahead and parse the html so we can explore that side of scrapy (we will be seeing a lot of json later, don't worry)</p>
+
+                        <p>Our goal here is to grab the attributes of "This Week", "Last Week", "Peak Position", "Weeks on Chart", "Title", and "Artist"</p>
+                        <h2 class="section-heading">3. Create our spider</h2>
+                        <h2 class="section-heading">4. Prepare for automation</h2>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://github.com/matthew-f-bailey">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.matthewfbailey.com/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fas fa-user fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/bailey-matthew/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; MyPyBlog</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>
