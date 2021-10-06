@@ -79,7 +79,7 @@
                         <p>This will ignore any folder and subfolders ending in "_env" thus our environments</p>
                         <p>Next we create our virtual environment just for scrapy. Open a command prompt and navigate into our newly created scrapy\scrapy_env folder and run the following command.</p>
 
-                        <pre><code>C:\etl_pipeline\scrapy\scrapy_env>python -m venv <br>C:\etl_pipeline\scrapy\scrapy_env>Scripts\activate.bat<br>(scrapy_env) C:\etl_pipeline\scrapy\scrapy_env><br></code></pre>
+                        <pre><code>C:\etl_pipeline\scrapy\scrapy_env>python -m venv .<br>C:\etl_pipeline\scrapy\scrapy_env>Scripts\activate.bat<br>(scrapy_env) C:\etl_pipeline\scrapy\scrapy_env><br></code></pre>
 
                         <p>The second command should then activate our environment and we can proceed.</p>
                         <p>Lets head back into our scrapy directory and create our requirements.txt file. It should contain a single entry of "scrapy". After we have this file in the scrapy directory and are in that directory we should run the following to install it.</p>
@@ -102,9 +102,9 @@
                             <li>Do we need to paginate?</li>
                             <li>Can we exploit request parameters?</li>
                         </ol>
-                        <p>Let's take a look at the website source code and find out. If we navigate to https://www.billboard.com/charts/hot-100, we can right click and choose inspect (or F12, or ctrl+shift+C, or various other shortcuts). This will pop up the developer tools.</p>
-                        <p>The first thing I typically do is go upon interacting with the site with the network tab open and inspect what happens. The first thing I check when loading in the page is to view the document loaded in. If this includes the data we need, chances are no API is used and we will need some sort of HTML parsing.</p>
-                        <p>We can see here that this is indeed the case (at least for the basic information). There is a json formatted custom data attribute but we will go ahead and parse the html so we can explore that side of scrapy (we will be seeing a lot of json later, don't worry)</p>
+                        <p>Let's take a look at the website source code and find out. If we navigate to <a href="https://www.billboard.com/charts/hot-100">Top 100</a>, we can right click and choose inspect (or F12, or ctrl+shift+C, or various other shortcuts). This will pop up the developer tools.</p>
+                        <p>The first thing I typically do is go upon interacting with the site with the network tab open and inspect what happens. When the initial document is loaded in, if this includes the data we need, chances are no API is used and we will need some sort of HTML parsing.</p>
+                        <p>We can see below that this is indeed the case (at least for the basic information). There is a json formatted custom data attribute but we will go ahead and parse the html so we can explore that side of scrapy (we will be seeing a lot of json later, don't worry).</p>
 
                         <p>Our goal here is to grab the attributes of "This Week", "Last Week", "Peak Position", "Weeks on Chart", "Title", and "Artist". So lets create a spider to gather that info.</p>
                         <img class="img-fluid" src="assets/scrapy/scraped_fields.png">
@@ -167,6 +167,7 @@
                         <p>We can verify and download the data from here. Or click on over to the next post where we will automate the starting and persisting of this data within AWS.</p>
                         <img class="img-fluid" src="assets/scrapy/pulleditems.png">
                         <p>It is also worth noting that Scrapy Cloud offers services to automate these and persist data even longer for a subscription. If they fit your needs more than AWS than feel free to use them. For this tutorial however, we are going to pull them into AWS in order to leverage all the powerful tools they offer.</p>
+                        <p>You can view the full source code <a href="https://github.com/matthew-f-bailey/cloud_etl_pipeline">here</a></p>
                     </div>
                 </div>
             </div>
