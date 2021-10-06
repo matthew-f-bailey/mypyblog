@@ -34,7 +34,7 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('assets/img/LeastSquares.png')">
+        <header class="masthead" style="background-image: url('assets/scrapy/cover.png')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
@@ -44,7 +44,7 @@
                             <span class="meta">
                                 Posted by
                                 <a href="#!">Matthew Bailey</a>
-                                on October 10, 2021
+                                on October 6, 2021
                             </span>
                         </div>
                     </div>
@@ -106,9 +106,67 @@
                         <p>The first thing I typically do is go upon interacting with the site with the network tab open and inspect what happens. The first thing I check when loading in the page is to view the document loaded in. If this includes the data we need, chances are no API is used and we will need some sort of HTML parsing.</p>
                         <p>We can see here that this is indeed the case (at least for the basic information). There is a json formatted custom data attribute but we will go ahead and parse the html so we can explore that side of scrapy (we will be seeing a lot of json later, don't worry)</p>
 
-                        <p>Our goal here is to grab the attributes of "This Week", "Last Week", "Peak Position", "Weeks on Chart", "Title", and "Artist"</p>
+                        <p>Our goal here is to grab the attributes of "This Week", "Last Week", "Peak Position", "Weeks on Chart", "Title", and "Artist". So lets create a spider to gather that info.</p>
+                        <img class="img-fluid" src="assets/scrapy/scraped_fields.png">
+
+
+
                         <h2 class="section-heading">3. Create our spider</h2>
+
+                        <p>Step one is to have scrapy generate our spider, we can choose from some templates built into scrapy, or we can define our own as a /.templ file if we want to customize them. For now, we will just go ahead and use the "basic" template built in.</p>
+                        <p>In our root project directory (where the scrapy.cfg lives), we can run the following genspider command.</p>
+                        <pre><code>(scrapy_env) C:\etl_pipeline\scrapy\pipeline>scrapy genspider --template=basic top100 www.billboard.com/charts/hot-100
+                            <br>&gt; Created spider 'top100' using template 'basic' in module:
+                            <br>&gt; pipeline.spiders.top100</code>
+                        </pre>
+                        <p>And if we check out our spider we can see what it created for us.</p>
+                        <pre><code>import scrapy
+                            <br><br>class Top100Spider(scrapy.Spider):
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;name = 'top100'
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;allowed_domains = ['https://www.billboard.com/charts/hot-100']
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;start_urls = ['https://www.billboard.com/charts/hot-100/']
+                            <br><br>&nbsp;&nbsp;&nbsp;&nbsp;def parse(self, response):
+                            <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass
+                            </code>
+                        </pre>
+
+                        <h3>The attributes/methods created.</h3>
+                        <ul>
+                            <li><b>name</b> - The name of the spider, scrapy uses this name to invoke crawls.</li>
+                            <li><b>allowed_domains</b> - The domains the spider is allowed to scrape.</li>
+                            <li><b>start_urls</b> - This is a shorthand for the start_requests() method. Having this attribute set will automatically make a get request to the url and pass its response into the pre-defined method called "parse"</li>
+                            <li><b>parse(self, response)</b> - The method to parse out the request defined by start_urls.</li>
+                        </ul>
+                        <p>In our case, scrapy will internally make a request over to the billboard top 100 page and pass that response onto the method of parse for us to, well parse.</p>
+                        <p>Using some selectors while inspecting our site, our parse method will look like the following.</p>
+                        <img class="img-fluid" src="assets/scrapy/finished_spider.png">
+
+                        <p>We first found the elements holding a single song and grabbed all 100 of those.</p>
+                        <p>We then looped over those 100 while using them as a starting point to dive deeper into those elements and find the info for the current song.</p>
+                        <p>Once we got the info, we passed a few through a simple function to clean up the data and remove unneeded words. (Note these are still strings, we will take care of that later)</p>
+                        <p>Then we yielded each one (creating a generator) and let scrapy do the rest.</p>
+                        <p>Here is the first 3 objects output from the spider.</p>
+                        <pre><code>{'name': 'Stay', 'artist': 'The Kid LAROI & Justin Bieber', 'this_week': '2', 'last_week': '1', 'consecutive': '12', 'peak': '1'}
+                            <br>{'name': 'Industry Baby', 'artist': 'Lil Nas X & Jack Harlow', 'this_week': '3', 'last_week': '2', 'consecutive': '10', 'peak': '2'}
+                            <br>{'name': 'Way 2 Sexy', 'artist': 'Drake Featuring Future & Young Thug', 'this_week': '4', 'last_week': '3', 'consecutive': '4', 'peak': '1'}</code></pre>
+
                         <h2 class="section-heading">4. Prepare for automation</h2>
+                        <p>The final step is taking care of where we are going to run and call these from AWS. While there are a few options here, the simplest one is to use Scrapy Cloud (not to mention its free).</p>
+                        <p>We are going to head over to the <a href="https://app.zyte.com/account/signup/">Zyte Signup Page</a> and create a free account. Some of you may know this as Scrapy although they recently underwent a rebranding recently so this is their new new.</p>
+                        <p>After signing up and confirming our email, we will be presented with a page with some offerings, the one we want (and the only free one) is Scrapy Cloud. Choose "Create your first project".</p>
+                        <img class="img-fluid" src="assets/scrapy/scrapy_cloud.png">
+                        <p>After choosing a fitting name for your project, we are going to hop right in deploy our first spider. If we navigate our way over to the "Code & Deploys" sidebar option, we will be presented with the following page.</p>
+                        <p>Choose either the command line option or the github option. Be aware that you should be on the root of the project when deploying via command line.</p>
+                        <p>After deploying, we should see the deploy page update in real time.</p>
+                        <img class="img-fluid" src="assets/scrapy/deploy.png">
+                        <p>You've just deployed your first spider to the cloud, congradulations. The only thing left in this tutorial is to run it. Keep in mind, the free version of scrapy cloud only persists your data for 7 days. So if you plan to stop here, then make sure to export your data after runs. However we will set up some automation in the next part of the tutorial to run and process the data via AWS. This is merely a place to host our spiders in the cloud without much overhead.</p>
+                        <p>To run our spider, head on over to the spiders page and choose the one we just created. Once on that page click run in the top right hand of the page.</p>
+                        <img class="img-fluid" src="assets/scrapy/runspider.png">
+                        <p>Once finished, we can check the items it pulled in by going down to "Completed Jobs" and clicking the hyperlinked count of items.</p>
+                        <img class="img-fluid" src="assets/scrapy/finishedrun.png">
+                        <p>We can verify and download the data from here. Or click on over to the next post where we will automate the starting and persisting of this data within AWS.</p>
+                        <img class="img-fluid" src="assets/scrapy/pulleditems.png">
+                        <p>It is also worth noting that Scrapy Cloud offers services to automate these and persist data even longer for a subscription. If they fit your needs more than AWS than feel free to use them. For this tutorial however, we are going to pull them into AWS in order to leverage all the powerful tools they offer.</p>
                     </div>
                 </div>
             </div>
