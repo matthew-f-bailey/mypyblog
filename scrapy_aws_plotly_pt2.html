@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>MyPyBlog - Home</title>
+        <title>Building an ETL workflow with Scrapy, AWS, and Dash/plotly part 2</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
@@ -14,6 +14,7 @@
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/content.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Navigation-->
@@ -33,79 +34,41 @@
             </div>
         </nav>
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('assets/img/home-bg.jpg')">
+        <header class="masthead" style="background-image: url('assets/scrapy/cover.png')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="site-heading">
-                            <h1>MyPyBlog</h1>
-                            <span class="subheading">Just some python stuff</span>
+                        <div class="post-heading">
+                            <h1>Building an ETL workflow with Scrapy, AWS, and Dash/plotly part 2</h1>
+                            <h2 class="subheading">Automate and persist with AWS Lambda and S3</h2>
+                            <span class="meta">
+                                Posted by
+                                <a href="#!">Matthew Bailey</a>
+                                on October 12, 2021
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </header>
-        <!-- Main Content-->
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="getting_started_in_python.html">
-                            <h2 class="post-title">Getting started with Python on Windows and virtual environments</h2>
-                            <h3 class="post-subtitle">Here we'll go over how to get started with Python on windows. As well as use virtual environments (trust me, you should use them).</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Matthew Bailey</a>
-                            on September 24, 2021
-                        </p>
+        <!-- Post Content-->
+        <article class="mb-4">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <h1>Part 1 - Automation and persisting data</h1>
+                        <h2 class="section-heading">Step 0. Creating an AWS account</h2>
+                        <p>First off, if you don't already have an AWS account, you'll need a free one.</p>
+                        <p>Sign up <a href="https://aws.amazon.com/free/">here</a> and follow the instructions on creating an account.</p>
+                        <p>AWS is something worth taking a deep dive on. When deploying apps, be sure to follow any security precautions. This post won't dive too deep into AWS aside from what we need for it. But there is plenty of great resources to learn the ins-and-outs of the comprehensive services they offer.</p>
+                        <h2 class="section-heading">Step 1. Creating</h2>
+                        <h2 class="section-heading">Step 2. Setup our environments and download libraries</h2>
+                        <h2 class="section-heading">Step 3. Setup our environments and download libraries</h2>
+
                     </div>
-                    <!-- Divider-->
-                    <hr class="my-4" />
-                    <!-- Post preview-->
-                    <div class="post-preview">
-                        <a href="least_squares.html">
-                            <h2 class="post-title">Finding the least-squares regression line via formulas in base python</h2>
-                            <h3 class="post-subtitle">Sure, you could use a pre-built module but wheres the fun in that</h3>
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Matthew Bailey</a>
-                            on September 30, 2021
-                        </p>
-                    </div>
-                     <!-- Divider-->
-                     <hr class="my-4" />
-                     <!-- Post preview-->
-                     <div class="post-preview">
-                         <a href="scrapy_aws_plotly_pt1.html">
-                             <h2 class="post-title">Building an ETL workflow with Scrapy, AWS, and Dash/plotly part 1</h2>
-                             <h3 class="post-subtitle">Extract & Transform with Scrapy. Persist in AWS. Display with Dash</h3>
-                         </a>
-                         <p class="post-meta">
-                             Posted by
-                             <a href="#!">Matthew Bailey</a>
-                             on October 6, 2021
-                         </p>
-                     </div>
-                     <!-- Divider-->
-                     <hr class="my-4" />
-                     <!-- Post preview-->
-                     <div class="post-preview">
-                         <a href="scrapy_aws_plotly_pt2.html">
-                             <h2 class="post-title">Building an ETL workflow with Scrapy, AWS, and Dash/plotly part 2</h2>
-                             <h3 class="post-subtitle">Automate and persist with AWS Lambda and S3</h3>
-                         </a>
-                         <p class="post-meta">
-                             Posted by
-                             <a href="#!">Matthew Bailey</a>
-                             on October 12, 2021
-                         </p>
-                     </div>
                 </div>
             </div>
-        </div>
+        </article>
         <!-- Footer-->
         <footer class="border-top">
             <div class="container px-4 px-lg-5">
